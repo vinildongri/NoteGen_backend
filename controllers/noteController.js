@@ -8,6 +8,8 @@ const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
 
 // Creating Notes from Prompt => /api/v1/notes
 export const createNotes = catchAsyncErrors(async (req, res, next) => {
+  console.log("test")
+  console.log("Api",process.env.GEMINI_API_KEY)
   let { messages, prompt } = req.body;
 
   // Convert prompt to messages if needed
@@ -32,7 +34,8 @@ export const createNotes = catchAsyncErrors(async (req, res, next) => {
   let response;
   try {
     response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-001",
+      // model: "gemini-2.0-flash-001",
+      model: "gemini-2.5-flash",
       contents,
     });
   } catch (err) {
