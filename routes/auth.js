@@ -9,10 +9,12 @@ import {
     loginUser, 
     logout, 
     registerUser, 
+    resendOTP, 
     resetPassword, 
     updateDetails, 
     updatePassword, 
-    updateProfile
+    updateProfile,
+    verifyOTP
 } from "../controllers/authController.js";
 
 const router = express.Router();
@@ -22,6 +24,8 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(logout);
 
 router.route("/password/forgot").post(forgotPassword);
+router.route("/verify-otp").post(verifyOTP);
+router.route("/resend-otp").post(resendOTP);
 router.route("/password/reset/:token").put(resetPassword);
 
 router.route("/me").get(isAuthenticatedUser, getUserProfile);

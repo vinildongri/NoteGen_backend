@@ -32,16 +32,23 @@ const userSchema = new mongoose.Schema(
             default: "user",
         },
 
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
+        otp: String,
+        otpExpire: Date,
+
         resetPasswordToken: String,
         resetPasswordExpire: Date,
 
     },
-    {timestamps: true}
+    { timestamps: true }
 );
 
 //  Encrypiting Password Before Savaving the user
 userSchema.pre("save", async function (next) {
-    if(!this.isModified("password")){
+    if (!this.isModified("password")) {
         next();
     }
     this.password = await bcrypt.hash(this.password, 10);
@@ -55,7 +62,7 @@ userSchema.methods.getJwtToken = function () {
 };
 
 // Compare User Password
-userSchema.methods.comparePassword = async function(enteredPassword){
+userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
@@ -74,6 +81,14 @@ userSchema.methods.getResetPasswordToken = async function () {
     this.resetPasswordExpire = Date.now() + 30 * 60 * 1000;
 
     return resetToken;
+};
+
+// Generate a 6-digit OTP
+userSchema.methods.getOTP = function () {
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    this.otp = crypto.createHash("sha256").update(otpCode).digest("hex");
+    this.otpExpire = Date.now() + 15 * 60 * 1000;
+    return otpCode;
 };
 
 export default mongoose.model("User", userSchema);

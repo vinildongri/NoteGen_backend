@@ -34,7 +34,7 @@ export const getResetPasswordTemplate = ( username, resetUrl ) =>`
         <p class="muted">This link will expire in 30 minutes. If you didn't request a password reset, please ignore this email.</p>
       </div>
       <div class="footer">
-        © ${new Date().getFullYear()} NoteGen • <a href="https://notegen.com" target="_blank">notegen.com</a>
+        © ${new Date().getFullYear()} NoteGen • <a href="https://note-gen-frontend.vercel.app/" target="_blank">notegen.com</a>
       </div>
     </div>
   </body>
