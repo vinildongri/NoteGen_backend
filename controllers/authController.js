@@ -150,6 +150,10 @@ export const loginUser = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHandler("Invalid email or password", 401));
     }
 
+    if (!user.isVerified) {
+        return next(new ErrorHandler("Please verify your email using the OTP sent to your inbox before logging in.", 403));
+    }
+
     sendToken(user, 200, res);
 });
 
